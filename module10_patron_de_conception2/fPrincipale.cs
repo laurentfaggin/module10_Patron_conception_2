@@ -13,14 +13,14 @@ namespace module10_patron_de_conception2
             {
                 if (e.TypeEvent == FactureModelEventType.NOUVELLE)
                 {
-                    dataGridView2.DataSource = null;
-                    dataGridView2.Rows.Clear();
-                    textBoxTotal.Text = string.Empty;
+                    dgvLigne.DataSource = null;
+                    dgvLigne.Rows.Clear();
+                    tbTotal.Text = string.Empty;
                 }
                 else if (e.TypeEvent == FactureModelEventType.AJOUT_LIGNE)
                 {
-                    dataGridView2.Rows.Add(e.LigneFacture.Description, e.LigneFacture.Quantite, e.LigneFacture.Quantite, e.LigneFacture.Total);
-                    textBoxTotal.Text = m_factureModel.Total.ToString() + " $";
+                    dgvLigne.Rows.Add(e.LigneFacture.Description, e.LigneFacture.Quantite, e.LigneFacture.Quantite, e.LigneFacture.Total);
+                    tbTotal.Text = m_factureModel.Total.ToString() + " $";
                 };
             });
         }     
@@ -28,9 +28,9 @@ namespace module10_patron_de_conception2
         private void CalculTotalFacture()
         {
             decimal total = 0;
-            total += dataGridView2.Rows.Cast<DataGridViewRow>().Sum(t => Convert.ToDecimal(t.Cells[3].Value));
+            total += dgvLigne.Rows.Cast<DataGridViewRow>().Sum(t => Convert.ToDecimal(t.Cells[3].Value));
             
-            textBoxTotal.Text = total.ToString();
+            tbTotal.Text = total.ToString();
         }
 
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -40,10 +40,10 @@ namespace module10_patron_de_conception2
 
         private void bSimuler_Click(object sender, EventArgs e)
         {
-            this.m_factureModel.AjouterLigneFacture(new LigneFactureModel(textBoxDescription.Text, upQuantite.Value, upPrix.Value));
-            textBoxDescription.Text = "";
-            upQuantite.Value = 0;
-            upPrix.Value = 0;
+            this.m_factureModel.AjouterLigneFacture(new LigneFactureModel(tbDescription.Text, nudQuantite.Value, nudPrix.Value));
+            tbDescription.Text = "";
+            nudQuantite.Value = 0;
+            nudPrix.Value = 0;
         }
 
         private void fPrincipale_Load(object sender, EventArgs e)
@@ -54,9 +54,9 @@ namespace module10_patron_de_conception2
         private void bPayer_Click(object sender, EventArgs e)
         {
             m_factureModel.Nouvelle();
-            textBoxDescription.Text = string.Empty;
-            upQuantite.Value = 0;
-            upPrix.Value = 0;
+            tbDescription.Text = string.Empty;
+            nudQuantite.Value = 0;
+            nudPrix.Value = 0;
         }
 
         private void lbTotal_Click(object sender, EventArgs e)
